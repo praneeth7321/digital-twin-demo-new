@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>AI Digital Twin Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: system-ui, Arial; margin: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .card { border: 1px solid #ddd; border-radius: 8px; padding: 16px; }
+    input { width: 100%; padding: 8px; margin: 6px 0; }
+    button { padding: 10px 14px; margin-right: 8px; }
+    ul { margin: 8px 0; padding-left: 18px; }
+  </style>
+</head>
+<body>
+  <h2>AI-Powered Digital Twin — Finance & Lifestyle (Demo)</h2>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Inputs</h3>
+      <label>Monthly Income (₹)<input id="income" type="number" value="50000"></label>
+      <label>Monthly Expenses (₹)<input id="expenses" type="number" value="32000"></label>
+      <label>Sleep (hours/day)<input id="sleep" type="number" step="0.1" value="6.8"></label>
+      <label>Exercise (mins/day)<input id="exercise" type="number" value="40"></label>
+      <button id="calc">Calculate</button>
+      <button id="simulate">Simulate</button>
+    </div>
+
+    <div class="card">
+      <h3>Metrics</h3>
+      <p>Savings Rate: <b id="savRate">-</b>%</p>
+      <p>Lifestyle Score: <b id="lifeScore">-</b></p>
+      <p>Predicted Next-Month Avg Savings: ₹<b id="predSav">-</b></p>
+    </div>
+
+    <div class="card">
+      <h3>Recommendations</h3>
+      <ul id="recs"></ul>
+    </div>
+
+    <div class="card">
+      <h3>6-Month Projection</h3>
+      <ul id="proj"></ul>
+    </div>
+  </div>
+
+  <script>
+    async function postJSON(url, payload) {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      return await res.json();
+    }
+
+    function readInputs() {
+      return {
+        income: parseFloat(document.getElementById("income").value),
+        expenses: parseFloat(document.getElementById("expenses").value),
+        sleep: parseFloat(document.getElementById("sleep").value),
+        exercise: parseFloat(document.getElementById("exercise").value)
+      };
+    }
+
+    document.getElementById("calc").onclick = async () => {
+      const payload = readInputs();
+      const data = await postJSON("/api/metrics", payload);
+      document.getElementById("savRate").innerText = data.savingsRate;
+      document.getElementById("lifeScore").innerText = data.lifestyleScore;
+      document.getElementById("predSav").innerText = data.predictedSavingsNextMonth.toLocaleString();
+      const recs = document.getElementById("recs");
+      recs.innerHTML = "";
+      data.recommendations.forEach(r => {
+        const li = document.createElement("li"); li.textContent = r; recs.appendChild(li);
+      });
+    };
+
+    document.getElementById("simulate").onclick = async () => {
+      const payload = readInputs();
+      const data = await postJSON("/api/simulate", payload);
+      document.getElementById("savRate").innerText = data.savingsRate;
+      document.getElementById("lifeScore").innerText = data.lifestyleScore;
+      const proj = document.getElementById("proj");
+      proj.innerHTML = "";
+      data.projection.forEach(([m, v]) => {
+        const li = document.createElement("li"); li.textContent = `${m}: ₹${v.toLocaleString()}`; proj.appendChild(li);
+      });
+    };
+  </script>
+</body>
+</html>
