@@ -1,20 +1,106 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>AI Digital Twin Demo</title>
+  <title>AI Digital Twin – Finance & Lifestyle</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
-    body { font-family: system-ui, Arial; margin: 20px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-    .card { border: 1px solid #ddd; border-radius: 8px; padding: 16px; }
-    input { width: 100%; padding: 8px; margin: 6px 0; }
-    button { padding: 10px 14px; margin-right: 8px; }
-    ul { margin: 8px 0; padding-left: 18px; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0a0f2c, #3b0066, #0a0f2c);
+      color: #f0f0f0;
+      margin: 0;
+      padding: 30px;
+      background-attachment: fixed;
+      background-size: 200% 200%;
+      animation: gradientMove 10s ease infinite;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #fff;
+      text-shadow: 0 0 12px #7b2ff7;
+      font-weight: 600;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      transition: 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 18px rgba(123, 47, 247, 0.3);
+    }
+
+    h3 {
+      color: #90caf9;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 6px;
+      margin-bottom: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: none;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    button {
+      padding: 10px 14px;
+      margin-right: 8px;
+      border: none;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #7b2ff7, #f107a3);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #f107a3, #7b2ff7);
+    }
+
+    ul {
+      margin: 10px 0;
+      padding-left: 20px;
+      color: #e0e0e0;
+    }
+
+    b { color: #ffeb3b; }
   </style>
 </head>
+
 <body>
-  <h2>AI-Powered Digital Twin — Finance & Lifestyle (Demo)</h2>
+  <h2>AI-Powered Digital Twin — Finance & Lifestyle</h2>
 
   <div class="grid">
     <div class="card">
@@ -73,7 +159,9 @@
       const recs = document.getElementById("recs");
       recs.innerHTML = "";
       data.recommendations.forEach(r => {
-        const li = document.createElement("li"); li.textContent = r; recs.appendChild(li);
+        const li = document.createElement("li");
+        li.textContent = r;
+        recs.appendChild(li);
       });
     };
 
@@ -85,7 +173,9 @@
       const proj = document.getElementById("proj");
       proj.innerHTML = "";
       data.projection.forEach(([m, v]) => {
-        const li = document.createElement("li"); li.textContent = `${m}: ₹${v.toLocaleString()}`; proj.appendChild(li);
+        const li = document.createElement("li");
+        li.textContent = `${m}: ₹${v.toLocaleString()}`;
+        proj.appendChild(li);
       });
     };
   </script>
