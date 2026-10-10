@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Digital Twin</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        input, button { padding: 8px; margin: 5px 0; }
+        #chatBox { margin-top: 10px; border: 1px solid #ccc; padding: 10px; }
+    </style>
+</head>
+<body>
+
+<h1>AI-Powered Digital Twin</h1>
+
+<!-- CHAT SECTION -->
+<h2>AI Chatbot</h2>
+<input type="text" id="chatInput" placeholder="Ask about finance or lifestyle">
+<button onclick="sendChat()">Ask AI</button>
+
+<div id="chatBox"></div>
+
+<hr>
+
+<!-- CHART SECTION -->
+<h2>Savings Chart</h2>
+<button onclick="loadChart()">Show Savings Chart</button>
+<br><br>
+<img id="chartImg" width="500">
+
+<script>
+function sendChat() {
+    const msg = document.getElementById("chatInput").value;
+
+    fetch("/api/ai/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: msg })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("chatBox").innerHTML =
+            "<b>AI:</b> " + data.reply;
+    });
+}
+
+function loadChart() {
+    document.getElementById("chartImg").src =
+        "/api/ai/chart?" + new Date().getTime();
+}
+</script>
+
+</body>
+</html>
